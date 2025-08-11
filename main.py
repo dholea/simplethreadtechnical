@@ -89,8 +89,19 @@ assert calculate_day_reimbursement(FULL, HIGH_COST_CITY) == FULL_REIMBURSEMENT_H
 
 print('day reimbursement rates are correct!')
 
-def calculate_reimbursement(projects):
-    return 0
+def calculate_reimbursement(projects_array):
+    total_reimbursement = 0
+    day_type = None
+    current_day = None
+
+    for project in projects_array:
+        if current_day is None:
+            current_day = project['start_date']
+        if day_type is None:
+            day_type = TRAVEL
+        total_reimbursement += calculate_day_reimbursement(day_type, project['city_cost'])
+    
+    return total_reimbursement
 
 assert calculate_reimbursement(SET_1) == 240
 assert calculate_reimbursement(SET_2) == 665
