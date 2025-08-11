@@ -65,3 +65,11 @@ SET_4 = [
     {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 2), 'end_date': date(2024, 10, 3)},
     {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 2), 'end_date': date(2024, 10, 6)}
 ]
+
+def calculate_reimbursement(projects):
+    return 0
+
+assert calculate_reimbursement(SET_1) == 240
+assert calculate_reimbursement(SET_2) == 665
+assert calculate_reimbursement(SET_3) == 520
+assert calculate_reimbursement(SET_4) == 440
