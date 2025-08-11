@@ -27,3 +27,41 @@
 #   Project 2: Low Cost City Start Date: 10/1/24 End Date: 10/1/24
 #   Project 3: High Cost City Start Date: 10/2/24 End Date: 10/3/24
 #   Project 4: High Cost City Start Date: 10/2/24 End Date: 10/6/24
+
+from datetime import date
+
+TRAVEL_REIMBURSEMENT_LOW = 45
+TRAVEL_REIMBURSEMENT_HIGH = 55
+FULL_REIMBURSEMENT_LOW = 75
+FULL_REIMBURSEMENT_HIGH = 85
+
+LOW_COST = 0
+HIGH_COST = 1
+
+CITY_TYPES = {
+    'LOW_COST': LOW_COST,
+    'HIGH_COST': HIGH_COST
+}
+
+SET_1 = [
+    {'city_cost': CITY_TYPES['LOW_COST'], 'start_date': date(2024, 10, 1), 'end_date': date(2024, 10, 4)}
+]
+
+SET_2 = [
+    {'city_cost': CITY_TYPES['LOW_COST'], 'start_date': date(2024, 10, 1), 'end_date': date(2024, 10, 1)},
+    {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 2), 'end_date': date(2024, 10, 6)},
+    {'city_cost': CITY_TYPES['LOW_COST'], 'start_date': date(2024, 10, 6), 'end_date': date(2024, 10, 9)}
+]
+
+SET_3 = [
+    {'city_cost': CITY_TYPES['LOW_COST'], 'start_date': date(2024, 9, 30), 'end_date': date(2024, 10, 3)},
+    {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 5), 'end_date': date(2024, 10, 7)},
+    {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 8), 'end_date': date(2024, 10, 8)}
+]
+
+SET_4 = [
+    {'city_cost': CITY_TYPES['LOW_COST'], 'start_date': date(2024, 10, 1), 'end_date': date(2024, 10, 1)},
+    {'city_cost': CITY_TYPES['LOW_COST'], 'start_date': date(2024, 10, 1), 'end_date': date(2024, 10, 1)},
+    {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 2), 'end_date': date(2024, 10, 3)},
+    {'city_cost': CITY_TYPES['HIGH_COST'], 'start_date': date(2024, 10, 2), 'end_date': date(2024, 10, 6)}
+]
