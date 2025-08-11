@@ -90,26 +90,37 @@ assert calculate_day_reimbursement(FULL, HIGH_COST_CITY) == FULL_REIMBURSEMENT_H
 print('day reimbursement rates are correct!')
 
 def calculate_reimbursement(projects_array):
-    total_reimbursement = 0
     current_day = None
+    day_map = {}
 
     for i, project in enumerate(projects_array):
         if current_day is None:
             current_day = project['start_date']
-            total_reimbursement += calculate_day_reimbursement(TRAVEL, project['city_cost'])
+            day_map[current_day] = [TRAVEL, project['city_cost']]
             current_day += timedelta(days=1)
+        elif current_day > project['start_date']:
+            if project['city_cost'] == HIGH_COST_CITY and projects_array[i - 1]['city_cost'] == LOW_COST_CITY:
+                # if this project is more expensive than the previous one and some dates overlap, we need ot take the higher cost
+                current_day = project['start_date']
         while current_day < project['end_date']:
-            total_reimbursement += calculate_day_reimbursement(FULL, project['city_cost'])
+            if current_day not in day_map or (current_day in day_map and project['city_cost'] > day_map[current_day][1]):
+                # if the current day is not in the map or the project cost is higher than the existing one, update it
+                day_map[current_day] = [FULL, project['city_cost']]
             current_day += timedelta(days=1)
 
         # if this is not the last project, check if the next project start date is included in the current sequence
         if (i < len(projects_array) - 1) and ((current_day + timedelta(days=1)) >= projects_array[i + 1]['start_date']):
+            day_map[current_day] = [FULL, project['city_cost']]
             # if the next project starts on the same day, continue to the next project
-            continue
         else:
             # add a travel day for the last day of this sequence
-            total_reimbursement += calculate_day_reimbursement(TRAVEL, project['city_cost'])
+            day_map[current_day] = [TRAVEL, project['city_cost']]
             current_day = None
+
+    total_reimbursement = 0
+
+    for day in day_map.values():
+        total_reimbursement += calculate_day_reimbursement(day[0], day[1])
 
     return total_reimbursement
 
