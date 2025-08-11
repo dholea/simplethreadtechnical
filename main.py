@@ -28,7 +28,7 @@
 #   Project 3: High Cost City Start Date: 10/2/24 End Date: 10/3/24
 #   Project 4: High Cost City Start Date: 10/2/24 End Date: 10/6/24
 
-from datetime import date
+from datetime import date, timedelta
 
 TRAVEL_REIMBURSEMENT_LOW = 45
 TRAVEL_REIMBURSEMENT_HIGH = 55
@@ -91,15 +91,26 @@ print('day reimbursement rates are correct!')
 
 def calculate_reimbursement(projects_array):
     total_reimbursement = 0
-    day_type = None
     current_day = None
 
-    for project in projects_array:
+    for i, project in enumerate(projects_array):
         if current_day is None:
             current_day = project['start_date']
-        if day_type is None:
-            day_type = TRAVEL
-        total_reimbursement += calculate_day_reimbursement(day_type, project['city_cost'])
+            total_reimbursement += calculate_day_reimbursement(TRAVEL, project['city_cost'])
+            current_day += timedelta(days=1)
+        while current_day < project['end_date']:
+            total_reimbursement += calculate_day_reimbursement(FULL, project['city_cost'])
+            current_day += timedelta(days=1)
+
+        current_day = project['end_date']
+        # if this is not the last project, check if the next project start date is included in the current sequence
+        if (i < len(projects_array) - 1) and (current_day >= projects_array[i + 1]['start_date']):
+            # if the next project starts on the same day, continue to the next project
+            continue
+        else:
+            # add a travel day for the last day of this sequence
+            total_reimbursement += calculate_day_reimbursement(TRAVEL, project['city_cost'])
+
     
     return total_reimbursement
 
